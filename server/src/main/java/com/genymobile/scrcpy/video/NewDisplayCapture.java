@@ -102,7 +102,7 @@ public class NewDisplayCapture extends SurfaceCapture {
     }
 
     @Override
-    public void prepare() {
+    public void prepare(int alignment) {
         int displayRotation;
         if (virtualDisplay == null) {
             if (!newDisplay.hasExplicitSize()) {
@@ -134,11 +134,11 @@ public class NewDisplayCapture extends SurfaceCapture {
         filter.addAngle(angle);
 
         Size filteredSize = filter.getOutputSize();
-        if (!filteredSize.isMultipleOf8() || (maxSize != 0 && filteredSize.getMax() > maxSize)) {
+        if (!filteredSize.isMultipleOf(alignment) || (maxSize != 0 && filteredSize.getMax() > maxSize)) {
             if (maxSize != 0) {
                 filteredSize = filteredSize.limit(maxSize);
             }
-            filteredSize = filteredSize.round8();
+            filteredSize = filteredSize.round(alignment);
             filter.addResize(filteredSize);
         }
 

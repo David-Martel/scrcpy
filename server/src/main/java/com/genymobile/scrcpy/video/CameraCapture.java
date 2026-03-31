@@ -126,7 +126,7 @@ public class CameraCapture extends SurfaceCapture {
     }
 
     @Override
-    public void prepare() throws IOException {
+    public void prepare(int alignment) throws IOException {
         try {
             captureSize = selectSize(cameraId, explicitSize, maxSize, aspectRatio, highSpeed);
             if (captureSize == null) {
@@ -149,7 +149,7 @@ public class CameraCapture extends SurfaceCapture {
         filter.addAngle(angle);
 
         transform = filter.getInverseTransform();
-        videoSize = filter.getOutputSize().limit(maxSize).round8();
+        videoSize = filter.getOutputSize().limit(maxSize).round(alignment);
     }
 
     private static String selectCamera(String explicitCameraId, CameraFacing cameraFacing) throws CameraAccessException, ConfigurationException {

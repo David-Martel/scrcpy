@@ -65,7 +65,7 @@ public class ScreenCapture extends SurfaceCapture {
     }
 
     @Override
-    public void prepare() throws ConfigurationException {
+    public void prepare(int alignment) throws ConfigurationException {
         displayInfo = ServiceManager.getDisplayManager().getDisplayInfo(displayId);
         if (displayInfo == null) {
             Ln.e("Display " + displayId + " not found\n" + LogUtils.buildDisplayListMessage());
@@ -97,7 +97,7 @@ public class ScreenCapture extends SurfaceCapture {
         filter.addAngle(angle);
 
         transform = filter.getInverseTransform();
-        videoSize = filter.getOutputSize().limit(maxSize).round8();
+        videoSize = filter.getOutputSize().limit(maxSize).round(alignment);
     }
 
     @Override
